@@ -1,0 +1,35 @@
+build
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# from python
+*.pyc
+
+# vim
+*.swp
+
+# gedt
+*.*~
+
+# latex
+*.log
+*.pdf
+*.toc
+*.dvi
+*.ps
+*.out
+*.snm
+*.nav
+*.aux
