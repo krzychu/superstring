@@ -1,0 +1,88 @@
+\documentclass[10pt]{beamer}
+\usetheme{Warsaw}
+
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{parskip}
+\usepackage{latexsym,gensymb,amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{url}
+
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Superstring}
+\author{Krzysztof Chrobak\and Jan Sochiera}
+
+\institute{Algorytmy Ewolucyjne 2012/2013}
+\subject{Computational Sciences}
+
+
+\begin{document}
+
+  \frame
+  {
+    \titlepage
+  }
+
+  \section{Problem superstringu}
+  \subsection{Definicja problemu}
+  \frame
+  {
+    \frametitle{Definicja problemu}
+
+    \begin{itemize}
+	    \item<1-> Dane : $s_1, s_2, s_3 \ldots s_n$ - słowa
+	    \item<2-> Szukamy najkrótszego słowa, w którym zawierają się wszystkie $s_i$
+    \end{itemize}
+  }
+
+  \subsection{Przestrzeń poszukiwań}
+  \frame
+	{
+    \frametitle{Przestrzeń poszukiwań}
+    Weźmy dowolny superstring $S$ dla $s_1, s_2, s_3 \ldots s_n$. Przez $b_1, \ldots b_n$ oznaczmy 
+    pozycje, na których odpowidnie słowa zaczynają się w $S$. Przez sklejenie dwóch słów $a$ i $b$
+    rozumiemy słowo $ab'$, gdzie $b'$ to sufiks $b$ pozostały po usunięciu z niego najdłuższego prefiksu
+    będącego jednocześnie sufiksem $a$. Zauważmy, że gdybyśmy sklejali słowa zgodnie z niemalejącą 
+    kolejnością $b_i$, dostalibyśmy właśnie $S$ (ignorując te, które już są podsłowami formowanego superstringu). 
+    Kolejność wyznacza jednoznacznie otrzymany przez sklejanie
+    superstring, zatem przestrzenią przeszukiwania jest $S_n$.
+	}
+
+  \subsection{Funkcja celu}
+  \frame
+	{
+	  \frametitle{Funkcja celu}
+    \begin{itemize}
+      \item <1-> $f : S_n \rightarrow N$
+      \item <2-> $f(\Pi) = $ długość superstringu uzyskanego poprzez sklejanie 
+          $s_1, s_2, s_3 \ldots s_n$ w kolejności $\Pi$
+    \end{itemize}
+	}
+
+  \section{Zastosowania w biologii}
+  \frame
+  {
+    \frametitle{Problem superstringu w biologii}
+    Znajdowanie superstringu jest wykorzystywane do sekwencjonowania DNA zgodnie z następującą procedurą (shotgun method):
+    \begin{enumerate}
+      \item <1-> Chemiczne rozbicie wielu egzemplarzy DNA na krótsze łańcuchy
+      \item <2-> Odczytanie sekwencji zasad azotowych krótkich fragmentów
+      \item <3-> Znalezienie najkrótszego słowa nad alfabetem $\Sigma = \{A, C, T, G\}$, 
+          które zawiera odczytane fragmenty jako podsłowa
+    \end{enumerate}
+  }
+
+\end{document}
+
+
+
+
+
+
+
+
