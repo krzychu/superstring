@@ -46,6 +46,7 @@ set(TESTS
   test/best_of_replacement.cpp
   test/crossover.cpp
   test/replacement.cpp
+  test/text.cpp
 )
 
 
