@@ -10,7 +10,7 @@ class AlgorithmState{
     int iteration() const; 
     void inc_iteration(); 
 
-    int processed() const;
+    unsigned long long int processed() const;
     void inc_processed(int delta = 1);
     Population & population();   
     const Population & population() const;
@@ -21,7 +21,7 @@ class AlgorithmState{
   private:
     Population population_;
     int iteration_;
-    int processed_;
+    unsigned long long int processed_;
     int best_solution_;
 };
 

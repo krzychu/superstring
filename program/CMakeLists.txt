@@ -12,6 +12,7 @@ include_directories(include)
 
 
 set(SOURCES
+  src/instance.cpp
   src/random.cpp 
   src/individual.cpp
   src/composition.cpp
@@ -21,16 +22,13 @@ set(SOURCES
   src/mutation.cpp
   src/population.cpp
   src/algorithm_state.cpp
-  src/instance.cpp
   src/termination.cpp
   src/solver.cpp
   src/adaptation.cpp
   src/stat_utils.cpp
   src/parent_selector.cpp
   src/crossover.cpp
-  src/local_search.cpp
   src/replacement.cpp
-  src/benchmark_collection.cpp
   src/immigration.cpp
 )
 
@@ -41,14 +39,11 @@ set(TESTS
   test/ux.cpp
   test/ox.cpp
   test/pmx.cpp
-  test/instance.cpp
   test/parent_selector.cpp
   test/composition.cpp
   test/population.cpp
   test/adaptation.cpp
   test/best_of_replacement.cpp
-  test/benchmark_collection.cpp
-  test/local_search.cpp
   test/crossover.cpp
   test/replacement.cpp
 )

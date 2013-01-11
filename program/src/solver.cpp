@@ -1,4 +1,5 @@
 #include <solver.h>
+
 #include <vector>
 #include <cstdio>
 #include <cassert>
@@ -13,20 +14,22 @@ void Solver::run(
 {
   const ReplacementStrategy & secondary_replacement = 
     * secondary_replacement_ptr;
+  
 
   // generate random population
   for(int i = 0; i < population_size; i++){
-    Individual * next = new Individual(instance.num_tasks());
+    Individual * next = new Individual(instance.num_words());
     state.inc_processed();
     next->randomize();
     next->set_cost(instance.evaluate(next));
     state.population().add(next);
   }
+
   
   // evaluate individuals, sort them etc.
   update_population(instance);
   
-  while( !termination(state) && solution() > instance.feasible_solution()){
+  while( !termination(state) ){
     // select parents
     std::vector<const Individual *> parents = 
       parent_selector(state);
@@ -40,7 +43,7 @@ void Solver::run(
 
     // evaluate children
     for(unsigned int i = 0; i < children.size(); i++){
-      double c = instance.evaluate(children[i]); 
+      int c = instance.evaluate(children[i]); 
       state.inc_processed();
       children[i]->set_cost(c);
     }
@@ -69,7 +72,7 @@ void Solver::run(
     // one more iteration...
     state.inc_iteration();
 
-    printf("current iteration : %5d best: %d diversity : %lf processed : %d  \n",
+    printf("current iteration : %5d best: %d diversity : %lf processed : %llu  \n",
       state.iteration(), 
       state.population().best(), 
       state.population().diversity(),

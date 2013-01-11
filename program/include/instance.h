@@ -2,35 +2,36 @@
 #define SUPERSTRING_INSTANCE_H_
 
 #include <vector>
+#include <string>
 
 #include <algorithm_state.h>
 
 class Instance{
   public:
-    Instance(int num_machines, int num_tasks, int feasible_solution);
-    
-    virtual ~Instance();
+    Instance(){}
+    virtual ~Instance() {}
 
-    int evaluate(const Individual * individual) const; 
-    std::vector<int> evaluate_all_insertions(const Individual * individual) const;
+    std::string & operator[] (int word){ 
+      return words_[word]; 
+    }
 
-    void update_cost(AlgorithmState & state) const;
+    const std::string & operator[] (int word) const{
+      return words_[word]; 
+    }
+   
+    int num_words() const { return words_.size(); }
 
-    int & operator() (int machine, int task);
-    int operator() (int machine, int task) const;
+    void add_word(const std::string & str){
+      words_.push_back(str);
+    }
 
-    int num_machines() const;
-    int num_tasks() const;
-    int feasible_solution() const;
-  
+    int evaluate(const Individual * ind) const;
+
   private:
     Instance(const Instance & instance);
     const Instance & operator=(const Instance & other);
-
-    int * data_;
-    int num_machines_;
-    int num_tasks_;
-    int feasible_solution_;
+    
+    std::vector<std::string> words_;
 };
 
 #endif

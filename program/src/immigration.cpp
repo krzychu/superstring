@@ -34,7 +34,7 @@ void ImmigrationOperator::replace_worst_with_random(
   // generate n random
   std::vector<Individual *> immigrants;
   for(int i = P.size() - n; i < P.size(); i++){
-    Individual * next = new Individual(instance.num_tasks());
+    Individual * next = new Individual(instance.num_words());
     st.inc_processed();
     next->randomize();
     next->set_cost(instance.evaluate(next));

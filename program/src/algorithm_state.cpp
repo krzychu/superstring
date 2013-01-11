@@ -24,7 +24,7 @@ Population & AlgorithmState::population(){
   return population_;
 }
 
-int AlgorithmState::processed() const{
+unsigned long long int AlgorithmState::processed() const{
   return processed_;
 }
 
