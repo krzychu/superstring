@@ -4,11 +4,13 @@
 #include <vector>
 #include <string>
 
+#include <random.h>
 #include <algorithm_state.h>
 
 class Instance{
   public:
     Instance(){}
+
     virtual ~Instance() {}
 
     std::string & operator[] (int word){ 
@@ -27,7 +29,12 @@ class Instance{
 
     int evaluate(const Individual * ind) const;
 
+    void randomize(const int numWords, 
+      const int superstringLength, 
+      const float avgCommonPartPercent);
+
   private:
+    char randomNucleotide();
     Instance(const Instance & instance);
     const Instance & operator=(const Instance & other);
     
