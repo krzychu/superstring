@@ -34,6 +34,7 @@ set(SOURCES
 
 
 set(TESTS
+  test/instance.cpp
   test/random.cpp
   test/individual.cpp
   test/ux.cpp

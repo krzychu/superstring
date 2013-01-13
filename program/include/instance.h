@@ -29,16 +29,20 @@ class Instance{
 
     int evaluate(const Individual * ind) const;
 
-    void randomize(const int numWords, 
-      const int superstringLength, 
-      const float avgCommonPartPercent);
+    Individual solution() const { return solution_; }
+
+    void randomize(const int num_words, 
+      const int superstring_length, 
+      const float avg_common_part_percentage);
 
   private:
-    char randomNucleotide();
+    char random_nucleotide();
     Instance(const Instance & instance);
     const Instance & operator=(const Instance & other);
     
     std::vector<std::string> words_;
+    int superstring_length_;
+    Individual solution_; 
 };
 
 #endif

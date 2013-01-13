@@ -7,7 +7,7 @@ int Instance::evaluate(const Individual * ind) const
   return 0;
 }
 
-char Instance::randomNucleotide(){
+char Instance::random_nucleotide(){
 	int r = randint(0,4);
 	if(r == 0) return 'A';
 	if(r == 1) return 'C';
@@ -15,40 +15,56 @@ char Instance::randomNucleotide(){
 	else return 'T';
 }
 
-void Instance::randomize(const int numWords, const int superstringLength, const float avgCommonPartPercent){
-	std::string superString;
-	superString.resize(superstringLength);
-	for(int i = 0; i < superstringLength; i++){
-		superString[i] = randomNucleotide();
+void Instance::randomize(const int num_words, const int superstring_length, const float avg_common_part_percentage){
+	srand(time(0));
+	std::string superstring;
+	superstring.resize(superstring_length);
+	for(int i = 0; i < superstring_length; i++){
+		superstring[i] = random_nucleotide();
 	}
-	std::vector<std::string> tempWords;
-	tempWords.resize(numWords);
-	int baseWordLength = superstringLength/numWords;
-	int randScope = int(0.25 * float(baseWordLength) * avgCommonPartPercent);
-	int sidewordLength = int(float(baseWordLength) * (1.0 + (avgCommonPartPercent)/2.0));
-	int midwordLength = int(float(baseWordLength) * (1.0 + avgCommonPartPercent));
+	std::vector<  std::pair<std::string, int>  > temp_words;
+	temp_words.resize(num_words);
+	for(int i = 0; i < num_words; i++){
+		temp_words[i].second = i;
+	}
+	int basic_word_length = superstring_length/num_words;
+	int random_scope = int(0.25 * float(basic_word_length) * avg_common_part_percentage);
+	int sideword_length = int(float(basic_word_length) * (1.0 + (avg_common_part_percentage)/2.0));
+	int midword_length = int(float(basic_word_length) * (1.0 + avg_common_part_percentage));
 
-	tempWords[0].resize(sidewordLength + randint(-randScope, randScope+1));
-	for(int i = 0, n = tempWords[0].size(); i < n; i++) {
-		tempWords[0][i] = superString[i];
-	}
-	tempWords[numWords-1].resize(sidewordLength + randint(-randScope, randScope+1));
-	for(int i = 0, n = tempWords[numWords-1].size(); i < n; i++) {
-		tempWords[numWords-1][i] = superString[superstringLength - n + i];	
+	temp_words[0].first.resize(sideword_length + randint(-random_scope, random_scope+1));
+	for(unsigned i = 0; i < temp_words[0].first.size(); i++) {
+		temp_words[0].first[i] = superstring[i];
 	}
 
-	for(int j = 1; j < numWords-1; j++){
-		int n = midwordLength + randint(-randScope, randScope+1);
-		tempWords[j].resize(n);
-		for(int i = 0, I = (n - baseWordLength)/2 + baseWordLength*j; i < n; i++){
-			tempWords[j][i] = superString[I];
+	temp_words[num_words-1].first.resize(sideword_length + randint(-random_scope, random_scope+1));
+	for(int n = temp_words[num_words-1].first.size(), i = 0; i < n; i++) {
+		temp_words[num_words-1].first[i] = superstring[superstring_length - n + i];	
+	}
+
+	for(int j = 1; j < num_words-1; j++){
+		int n = midword_length + randint(-random_scope, random_scope+1);
+		temp_words[j].first.resize(n);
+		int I = (n - basic_word_length)/2 + basic_word_length*j;
+		if(I < 0){
+			n += I;
+			temp_words[j].first.resize(n);
+			I = 0;
+		}
+		if(I + n >= superstring_length){
+			I = superstring_length-n;
+		}
+		for(int i = 0; i < n; i++, I++){
+			temp_words[j].first[i] = superstring[I];
 		}
 	}
 
-	std::random_shuffle(tempWords.begin(), tempWords.end());
+	std::random_shuffle(temp_words.begin(), temp_words.end());
 
-	for(int i = 0; i < numWords; i++){
-		add_word(tempWords[i]);
+	solution_.resize(num_words);
+	for(int i = 0; i < num_words; i++){
+		add_word(temp_words[i].first);
+		solution_[i] = temp_words[i].second;
 	}
 
 }
