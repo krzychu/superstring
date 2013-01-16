@@ -24,6 +24,8 @@ Instance::~Instance()
     delete [] pis_[i];
 }
 
+
+
 int Instance::evaluate(const Individual * ind) const
 {
   const Individual & P = *ind;
@@ -44,19 +46,26 @@ int Instance::evaluate(const Individual * ind) const
   return ss.size();
 }
 
+
+
 char Instance::random_nucleotide(){
 	int r = randint(0,4);
+  return r;
+
+  /* 
+   * Zmieniłem, bo jeśli wartości będą z przedziału 0 - 3 to drzewo będzie znacząco
+   * mniejsze.
+   *
 	if(r == 0) return 'A';
 	if(r == 1) return 'C';
 	if(r == 2) return 'G';
 	else return 'T';
+  */
 }
 
 
 
-
 void Instance::randomize(int num_words, int superstring_length, float avg_common_part_percentage){
-	srand(time(0));
 	std::string superstring;
 	superstring.resize(superstring_length);
 	for(int i = 0; i < superstring_length; i++){
@@ -106,7 +115,6 @@ void Instance::randomize(int num_words, int superstring_length, float avg_common
 		add_word(temp_words[i].first);
 		solution_[i] = temp_words[i].second;
 	}
-
 }
 
 
