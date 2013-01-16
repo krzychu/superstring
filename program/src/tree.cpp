@@ -31,7 +31,7 @@ stree::Tree::~Tree()
 
 
 
-void stree::Tree::add(int letter)
+void stree::Tree::push_back(int letter)
 {
   Node * parent;
   Node * last_parent = root_;
@@ -60,36 +60,6 @@ void stree::Tree::add(int letter)
   active_.canonize(context_);
 }
 
-
-
-void stree::Tree::add(const Text & text)
-{
-  for(unsigned int i = 0; i < text.size(); i++)
-    add(text[i]);
-}
-
-
-bool stree::Tree::contains(const Text & t) const
-{
-  Node * cur = root_;  
-  int on_edge = 1;
-  for(int i = 0; i < (int)t.size(); i++){
-    const int letter = t[i];
-    if(on_edge == cur->size()){
-      if(!cur->children[letter])
-        return false;
-      
-      cur = cur->children[letter];
-      on_edge = 0;
-    }
-    else{
-      if(letter != text_[cur->begin + on_edge])
-        return false;
-    }
-    on_edge++;
-  }
-  return true;
-}
 
 
 

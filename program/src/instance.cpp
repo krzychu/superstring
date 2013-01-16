@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 #include <functional>
+#include <suffix_tree.h>
 
 
 using namespace std;
@@ -30,17 +31,29 @@ int Instance::evaluate(const Individual * ind) const
 {
   const Individual & P = *ind;
   vector<char> ss;
+  stree::Tree tree(alphabet_size_);
 
   for(int i = 0; i < num_words(); i++){
     const std::string & w = words_[P[i]];
     int * pi = pis_[P[i]];
-    
-    pair<int, int> out = find_with_overlap(w, pi, ss.begin(), ss.end());
-    const unsigned int match = out.first;
+   
+    vector<char>::iterator start;
+    if(w.size() > ss.size())
+      start = ss.begin();
+    else
+      start = ss.end() - w.size();
+
+    pair<int, int> out = find_with_overlap(
+      w, pi, 
+      ss.begin(),
+      ss.end());
+
     const int overlap = out.second;
 
-    if(match != w.size())
+    if(!tree.contains(w.begin(), w.end())){
       copy(w.begin() + overlap, w.end(), back_inserter(ss)); 
+      copy(w.begin() + overlap, w.end(), back_inserter(tree)); 
+    }
   } 
 
   return ss.size();

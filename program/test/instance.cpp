@@ -3,7 +3,7 @@
 
 
 TEST(Instance, EvaluatesIndividuals){
-  Instance instance;
+  Instance instance(200);
   instance.add_word("ab");
   instance.add_word("bc");
   instance.add_word("abc");

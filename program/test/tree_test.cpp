@@ -54,21 +54,13 @@ TEST(SuffixTree, ContainsAllSubstrings)
   Tree t(50);
 
   for(int i = 0; i < len; i++){
-    t.add(text[i] - 'a');
-   // std::cout << "\n\nnext : " << text[i] << std::endl;;
-   // t.dump(std::cout);
+    t.push_back(text[i] - 'a');
   } 
 
   for(const char * begin = text; begin < text + len; begin++){
     for(const char * end = begin + 1; end <= text + len; end++){
       Text subword = str2text(begin, end);
-      /*
-      std::cout << "? ";
-      for(const char * a = begin; a < end; a++)
-        std::cout << *a ;
-      std::cout << std::endl;
-      */
-      ASSERT_TRUE(t.contains(subword));
+      ASSERT_TRUE(t.contains(subword.begin(), subword.end()));
     }
   }
 }
@@ -84,7 +76,7 @@ TEST(SuffixTree, BigRandom)
     text.push_back(rand() % range);
 
   Tree t(range);   
-  t.add(text); 
+  t.push_back(text.begin(), text.end()); 
 
 
   // check some substrings
@@ -92,8 +84,7 @@ TEST(SuffixTree, BigRandom)
   for(int i = 0; i < num_substrings; i++){
     int begin = rand() % size;
     int end = begin + rand() % (size - begin);
-    Text sub(text.begin() + begin, text.begin() + end);
-    ASSERT_TRUE(t.contains(sub));
+    ASSERT_TRUE(t.contains(text.begin() + begin, text.begin() + end));
   }
 
   // check some random strings
@@ -109,7 +100,7 @@ TEST(SuffixTree, BigRandom)
     calculate_pi(str.begin(), str.end(), pi);
 
     std::pair<int, int> result = find_with_overlap(str, pi, text.begin(), text.end());
-    ASSERT_EQ(result.first == len, t.contains(str));
+    ASSERT_EQ(result.first == len, t.contains(str.begin(), str.end()));
 
     delete [] pi;
   }

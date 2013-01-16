@@ -8,7 +8,9 @@
 
 class Instance{
   public:
-    Instance(){}
+    Instance(int alphabet_size) 
+      : alphabet_size_(alphabet_size){}
+
     virtual ~Instance();
 
     std::string & operator[] (int word){ 
@@ -30,6 +32,7 @@ class Instance{
       float avg_common_part_percentage);
 
   private:
+    const int alphabet_size_; 
     char random_nucleotide();
     Instance(const Instance & instance);
     const Instance & operator=(const Instance & other);

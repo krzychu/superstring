@@ -74,15 +74,23 @@ struct RefPair : public Substr
 class Tree
 {
   public:
+
+    typedef const char & const_reference;
+
     Tree(int alphabet_size);
     ~Tree();
     
-    void add(int letter);
-    void add(const Text & text);
+    void push_back(int letter);
+
+    template<class TextIterator>
+    void push_back(const TextIterator & begin, const TextIterator & end);
+
     Node * root() const {return root_;}
     int alphabet_size() const {return alphabet_size_;}
+    
+    template<class TextIterator>
+    bool contains(const TextIterator & begin, const TextIterator & end) const;
 
-    bool contains(const Text & t) const;
     void dump(std::ostream & out) const;
 
   private:
@@ -94,6 +102,8 @@ class Tree
     Context context_;
     int alphabet_size_;
 };
+
+#include "suffix_tree_imp.h"
 
 }
 
