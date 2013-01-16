@@ -45,7 +45,7 @@ int Instance::evaluate(const Individual * ind) const
 
     pair<int, int> out = find_with_overlap(
       w, pi, 
-      ss.begin(),
+      start,
       ss.end());
 
     const int overlap = out.second;
