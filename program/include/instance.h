@@ -8,21 +8,25 @@
 
 class Instance{
   public:
+
+    typedef std::vector<char> Word;
+
     Instance(int alphabet_size) 
       : alphabet_size_(alphabet_size){}
 
     virtual ~Instance();
 
-    std::string & operator[] (int word){ 
+    Word & operator[] (int word){ 
       return words_[word]; 
     }
 
-    const std::string & operator[] (int word) const{
+    const Word & operator[] (int word) const{
       return words_[word]; 
     }
    
     int num_words() const { return words_.size(); }
     void add_word(const std::string & str);
+    void add_word(const Word & vec);
     int evaluate(const Individual * ind) const;
 
     Individual solution() const { return solution_; }
@@ -37,7 +41,7 @@ class Instance{
     Instance(const Instance & instance);
     const Instance & operator=(const Instance & other);
     
-    std::vector<std::string> words_;
+    std::vector< Word > words_;
     std::vector<int *> pis_;
     int superstring_length_;
     Individual solution_; 

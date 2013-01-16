@@ -11,10 +11,20 @@ using namespace std;
 
 void Instance::add_word(const std::string & str)
 {
-  words_.push_back(str);
-  int * pi = new int[str.size()];
+  Word w(str.size());
+  for(unsigned int i = 0; i < str.size(); i++)
+    w[i] = str[i] - 'a';
+
+  add_word(w);
+}
+
+
+void Instance::add_word(const Word & w)
+{
+  words_.push_back(w);
+  int * pi = new int[w.size()];
   pis_.push_back(pi);
-  calculate_pi(str.begin(), str.end(), pi);
+  calculate_pi(w.begin(), w.end(), pi);
 }
 
 
@@ -26,7 +36,6 @@ Instance::~Instance()
 }
 
 
-
 int Instance::evaluate(const Individual * ind) const
 {
   const Individual & P = *ind;
@@ -34,7 +43,7 @@ int Instance::evaluate(const Individual * ind) const
   stree::Tree tree(alphabet_size_);
 
   for(int i = 0; i < num_words(); i++){
-    const std::string & w = words_[P[i]];
+    const Word & w = words_[P[i]];
     int * pi = pis_[P[i]];
    
     vector<char>::iterator start;
@@ -44,9 +53,8 @@ int Instance::evaluate(const Individual * ind) const
       start = ss.end() - w.size();
 
     pair<int, int> out = find_with_overlap(
-      w, pi, 
-      start,
-      ss.end());
+      w.begin(), w.end(), pi, 
+      start, ss.end());
 
     const int overlap = out.second;
 
@@ -79,12 +87,12 @@ char Instance::random_nucleotide(){
 
 
 void Instance::randomize(int num_words, int superstring_length, float avg_common_part_percentage){
-	std::string superstring;
+	Word superstring;
 	superstring.resize(superstring_length);
 	for(int i = 0; i < superstring_length; i++){
 		superstring[i] = random_nucleotide();
 	}
-	std::vector<  std::pair<std::string, int>  > temp_words;
+	std::vector<  std::pair<Word, int>  > temp_words;
 	temp_words.resize(num_words);
 	for(int i = 0; i < num_words; i++){
 		temp_words[i].second = i;

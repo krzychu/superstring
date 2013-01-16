@@ -25,7 +25,7 @@ TEST(text, find_with_overlap){
   int * pi = new int[pat.size()];
   calculate_pi(pat.begin(), pat.end(), pi);
 
-  std::pair<int, int> res = find_with_overlap(pat, pi, 
+  std::pair<int, int> res = find_with_overlap(pat.begin(), pat.end(), pi, 
     text.begin(), text.end());
 
   ASSERT_EQ(4, res.second);

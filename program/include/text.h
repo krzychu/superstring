@@ -21,21 +21,26 @@ void calculate_pi(const TextIterator & begin, const TextIterator & end, OutputIt
 
 
 // returns (max q, overlap)
-template<class PiItr, class RItr> 
+template<class PatternIterator, class PiIterator, class TextIterator> 
 std::pair<int, int> find_with_overlap
-  (const std::string & pat, PiItr & pi, RItr begin, RItr end)
+  (PatternIterator pattern_begin, 
+   PatternIterator pattern_end, 
+   PiIterator pi_begin, 
+   TextIterator text_begin, 
+   TextIterator text_end)
 {
   unsigned int q = 0;
   unsigned int maxq = 0;
-  while(begin != end){
-    while(q == pat.size() || (q > 0 && *begin != pat[q]))
-      q = pi[q - 1];
+  const unsigned int pattern_size = pattern_end - pattern_begin;
+  while(text_begin != text_end){
+    while(q == pattern_size || (q > 0 && *text_begin != pattern_begin[q]))
+      q = pi_begin[q - 1];
     
-    if(pat[q] == *begin)
+    if(pattern_begin[q] == *text_begin)
       q++;
 
     maxq = std::max(maxq, q);
-    begin++;
+    text_begin++;
   }
 
   return std::make_pair(maxq, q);
