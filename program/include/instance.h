@@ -9,7 +9,7 @@
 class Instance{
   public:
     Instance(){}
-    virtual ~Instance() {}
+    virtual ~Instance();
 
     std::string & operator[] (int word){ 
       return words_[word]; 
@@ -20,11 +20,7 @@ class Instance{
     }
    
     int num_words() const { return words_.size(); }
-
-    void add_word(const std::string & str){
-      words_.push_back(str);
-    }
-
+    void add_word(const std::string & str);
     int evaluate(const Individual * ind) const;
 
   private:
@@ -32,6 +28,7 @@ class Instance{
     const Instance & operator=(const Instance & other);
     
     std::vector<std::string> words_;
+    std::vector<int *> pis_;
 };
 
 #endif

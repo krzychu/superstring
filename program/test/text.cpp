@@ -4,17 +4,32 @@
 
 
 TEST(text, calculate_pi){
-  const char * text = "abaabbbab";   
+  std::string text("abaabbbab"); 
   const int pi[] = {0, 0, 1, 1, 2, 0, 0, 1, 2};
 
-  const int n = strlen(text);
+  int * out = new int[text.size()];
+  calculate_pi(text.begin(), text.end(), out);
 
-  int * out = new int[n];
-  calculate_pi(text, out, n);
-
-  for(int i = 0; i < n; i++){
+  for(unsigned int i = 0; i < text.size(); i++){
     ASSERT_EQ(pi[i], out[i]);
   }
 
-  delete out;
+  delete [] out;
+}
+
+
+TEST(text, find_with_overlap){
+  std::string pat = "ababd";
+  std::string text = "ababddaabab";
+ 
+  int * pi = new int[pat.size()];
+  calculate_pi(pat.begin(), pat.end(), pi);
+
+  std::pair<int, int> res = find_with_overlap(pat, pi, 
+    text.begin(), text.end());
+
+  ASSERT_EQ(4, res.second);
+  ASSERT_EQ(5, res.first);
+
+  delete [] pi;
 }
