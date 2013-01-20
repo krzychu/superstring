@@ -25,26 +25,28 @@ class Instance{
     }
    
     int num_words() const { return words_.size(); }
+    int alphabet_size() const { return alphabet_size_; }
+    int superstring_length() const { return superstring_length_; }
+    Individual solution() const { return solution_; }
     void add_word(const std::string & str);
     void add_word(const Word & vec);
     int evaluate(const Individual * ind) const;
-
-    Individual solution() const { return solution_; }
 
     void randomize(int num_words, 
       int superstring_length, 
       float avg_common_part_percentage);
 
+    void save(const char *file_name);
+    static Instance load(const char *file_name);
+
   private:
     const int alphabet_size_; 
     char random_nucleotide();
-    Instance(const Instance & instance);
-    const Instance & operator=(const Instance & other);
     
     std::vector< Word > words_;
     std::vector<int *> pis_;
     int superstring_length_;
-    Individual solution_; 
+    Individual solution_;
 };
 
 #endif
