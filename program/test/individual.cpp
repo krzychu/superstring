@@ -13,6 +13,7 @@ TEST(Individual, ReadsItselfFromString){
 
 TEST(Individual, ChecksValidity){
   Individual p(3);
+  p[2] = 1;
   ASSERT_FALSE(p.valid());
 
   p[0] = 2;

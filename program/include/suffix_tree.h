@@ -6,8 +6,6 @@
 
 namespace stree{
 
-
-
 typedef std::vector<char> Text;
 
 

@@ -4,42 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "suffix_tree.h"
-
-
-template<class T>
-void calculate_pi(const T & begin, const T & end, int * out){
-  out[0] = 0;   
-  int q = 0;
-  for(int i = 1; i < end - begin; i++){
-    while(q > 0 && begin[q] != begin[i])
-      q = out[q-1];
-    if(begin[i] == begin[q])
-      q++;
-    out[i] = q;
-  }
-}
-
-
-// returns (max q, overlap)
-template<class PiItr, class RItr> 
-std::pair<int, int> find_with_overlap
-  (const std::vector<char> & pat, PiItr & pi, RItr begin, RItr end)
-{
-  unsigned int q = 0;
-  unsigned int maxq = 0;
-  while(begin != end){
-    while(q == pat.size() || (q > 0 && *begin != pat[q]))
-      q = pi[q - 1];
-    
-    if(pat[q] == *begin)
-      q++;
-
-    maxq = std::max(maxq, q);
-    begin++;
-  }
-
-  return std::make_pair(maxq, q);
-}
+#include <text.h>
 
 
 
@@ -69,7 +34,7 @@ TEST(SuffixTree, ContainsAllSubstrings)
 TEST(SuffixTree, BigRandom)
 {
   // generate big random text 
-  const int size = 1 << 20;
+  const int size = 1 << 10;
   const int range = 10;
   Text text;
   for(int i = 0; i < size; i++)
@@ -78,9 +43,8 @@ TEST(SuffixTree, BigRandom)
   Tree t(range);   
   t.push_back(text.begin(), text.end()); 
 
-
   // check some substrings
-  const int num_substrings = 1 << 10;
+  const int num_substrings = 100;
   for(int i = 0; i < num_substrings; i++){
     int begin = rand() % size;
     int end = begin + rand() % (size - begin);
@@ -99,7 +63,8 @@ TEST(SuffixTree, BigRandom)
     int * pi = new int[len];
     calculate_pi(str.begin(), str.end(), pi);
 
-    std::pair<int, int> result = find_with_overlap(str, pi, text.begin(), text.end());
+    std::pair<int, int> result = find_with_overlap(
+      str.begin(), str.end(), pi, text.begin(), text.end());
     ASSERT_EQ(result.first == len, t.contains(str.begin(), str.end()));
 
     delete [] pi;
