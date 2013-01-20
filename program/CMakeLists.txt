@@ -30,6 +30,7 @@ set(SOURCES
   src/crossover.cpp
   src/replacement.cpp
   src/immigration.cpp
+  src/local_search.cpp
 
   src/node.cpp
   src/refpair.cpp
@@ -55,6 +56,7 @@ set(TESTS
   test/instance.cpp
   test/components_test.cpp
   test/tree_test.cpp
+  test/local_search.cpp
 )
 
 

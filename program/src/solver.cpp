@@ -62,7 +62,6 @@ void Solver::run(
     }
     
 
-    // evaluate again
     update_population(instance);
 
     immigration(state, instance);
@@ -122,6 +121,7 @@ void Solver::set_secondary_replacement
 int Solver::processed() const{
   return state.processed();
 }
+
 
 int Solver::num_iterations() const{
   return state.iteration();
