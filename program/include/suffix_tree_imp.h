@@ -14,7 +14,8 @@ bool stree::Tree::contains
       on_edge = 0;
     }
     else{
-      if(letter != text_[cur->begin + on_edge])
+      unsigned int pos = cur->begin + on_edge;
+      if(pos >= text_.size() || letter != text_[pos])
         return false;
     }
     on_edge++;
