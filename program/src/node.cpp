@@ -46,7 +46,7 @@ void stree::Node::dump(std::ostream & out, int indent , const Context & cx) cons
   }
   else{
     out << "==> ";
-    for(int i = begin; i < end && i < cx.text.size(); i++)
+    for(int i = begin; i < end && i < int(cx.text.size()); i++)
       out << (char)(cx.text[i] + 'a');
 
     if(!leaf())

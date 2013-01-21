@@ -30,7 +30,7 @@ TEST(SuffixTree, ContainsAllSubstrings)
   }
 }
 
-
+/*
 TEST(SuffixTree, BigRandom)
 {
   // generate big random text 
@@ -70,3 +70,5 @@ TEST(SuffixTree, BigRandom)
     delete [] pi;
   }
 }
+*/
+
