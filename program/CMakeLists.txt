@@ -31,6 +31,7 @@ set(SOURCES
   src/replacement.cpp
   src/immigration.cpp
   src/local_search.cpp
+  src/find_union.cpp
 
   src/node.cpp
   src/refpair.cpp
@@ -57,6 +58,7 @@ set(TESTS
   test/components_test.cpp
   test/tree_test.cpp
   test/local_search.cpp
+  test/find_union.cpp
 )
 
 

@@ -16,13 +16,9 @@ class Instance{
 
     virtual ~Instance();
 
-    Word & operator[] (int word){ 
-      return words_[word]; 
-    }
-
-    const Word & operator[] (int word) const{
-      return words_[word]; 
-    }
+    Word & operator[] (int word){ return words_[word]; }
+    const Word & operator[] (int word) const{ return words_[word]; }
+    const int * pi(int word) const{ return pis_[word]; }
    
     int num_words() const { return words_.size(); }
     int alphabet_size() const { return alphabet_size_; }
