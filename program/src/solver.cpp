@@ -12,9 +12,6 @@ void Solver::run(
   int population_size
 )
 {
-  const ReplacementStrategy & secondary_replacement = 
-    * secondary_replacement_ptr;
-  
 
   // generate random population
   for(int i = 0; i < population_size; i++){
@@ -51,15 +48,7 @@ void Solver::run(
     local_search(state, children);
 
     // replacement
-    if(!secondary_replacement_ptr){
-      replacement_strategy(state, children);
-    }
-    else{
-      if(state.iteration() % secondary_period == 0)
-        secondary_replacement(state, children);
-      else
-        replacement_strategy(state, children);
-    }
+    replacement_strategy(state, children);
     
 
     update_population(instance);
@@ -110,15 +99,7 @@ int Solver::solution() const{
 }
 
 
-void Solver::set_secondary_replacement
-  (const ReplacementStrategy & rep, int period)
-{
-  secondary_replacement_ptr = &rep;
-  secondary_period = period;
-}
-
-
-int Solver::processed() const{
+long long int Solver::processed() const{
   return state.processed();
 }
 

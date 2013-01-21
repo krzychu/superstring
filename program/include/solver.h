@@ -41,8 +41,6 @@ class Solver{
       replacement_strategy(replacement),
       adaptation(fadaptation),
       local_search(local),
-      secondary_replacement_ptr(0),
-      secondary_period(0),
       immigration(imm)
     {}
 
@@ -55,10 +53,8 @@ class Solver{
     const std::vector<IterationInfo> & iterations() const;
 
     int solution() const;
-    int processed() const;
+    long long int processed() const;
     int num_iterations() const;
-
-    void set_secondary_replacement(const ReplacementStrategy & rep, int period);
 
   private:
     AlgorithmState state;
@@ -69,9 +65,6 @@ class Solver{
     const ReplacementStrategy & replacement_strategy;  
     const AdaptationScaler & adaptation;
     const LocalSearchStrategy & local_search;
-
-    const ReplacementStrategy * secondary_replacement_ptr;
-    int secondary_period;
 
     const ImmigrationOperator & immigration;
 
