@@ -66,6 +66,9 @@ target_link_libraries(superstringlib gomp)
 add_executable(ut ${TESTS})
 target_link_libraries(ut superstringlib ${GTEST_BOTH_LIBRARIES})
 
+add_executable(genetic genetic.cpp)
+target_link_libraries(genetic superstringlib)
+
 #add_custom_target(
 #  copy_benchmarks ALL
 #  COMMAND cp  ${CMAKE_CURRENT_SOURCE_DIR}/../benchmark/* ${CMAKE_CURRENT_BINARY_DIR}/)
