@@ -81,6 +81,6 @@ target_link_libraries(generator superstringlib)
 add_executable(heuristic heuristic.cpp)
 target_link_libraries(heuristic superstringlib)
 
-#add_custom_target(
-#  copy_benchmarks ALL
-#  COMMAND cp  ${CMAKE_CURRENT_SOURCE_DIR}/../benchmark/* ${CMAKE_CURRENT_BINARY_DIR}/)
+add_custom_target(
+  copy_benchmarks ALL
+  COMMAND cp  ${CMAKE_CURRENT_SOURCE_DIR}/../benchmarks/* ${CMAKE_CURRENT_BINARY_DIR}/)
