@@ -49,10 +49,14 @@ int main(int argc, char ** argv){
   
 
   int start = time(0);
+  #pragma omp parallel for
   for(int i = 0; i < num_processed; i++){
     x->randomize();
     int v = instance.evaluate(x);
-    if(v < random_best) random_best = v;
+    #pragma omp critical
+    {
+      if(v < random_best) random_best = v;
+    }
   }
 
   int duration = time(0) - start;

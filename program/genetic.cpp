@@ -13,8 +13,8 @@ const int execution_idx = 2;
 const int num_iterations_idx = 3;
 
 // program parameters
-int population_size = 1000;
-int num_parents = 1000;
+int population_size = 200;
+int num_parents = 200;
 
 const double max_immigrant_ratio = 0.3;
 const int num_immigrant_search_iterations = 5;
