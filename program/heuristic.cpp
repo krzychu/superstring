@@ -16,7 +16,11 @@ int main(int argc, char ** argv)
   Instance instance  = Instance::load(file_name);
   
   Heuristic solver(instance);
+
+  int start = time(0);
   int solution = solver.run();
+  int duration = time(0) - start;
+
   printf("solution : %d\n", solution); 
 
 
@@ -24,6 +28,7 @@ int main(int argc, char ** argv)
   name << file_name << ".heuristic";
   FILE * out = fopen(name.str().c_str(), "w");
   fprintf(out, "heuristic solution: %d\n", solution);
+  fprintf(out, "time: %d\n", duration);
   fclose(out);
 
   return 0;
