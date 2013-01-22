@@ -32,6 +32,7 @@ set(SOURCES
   src/immigration.cpp
   src/local_search.cpp
   src/find_union.cpp
+  src/heuristic.cpp
 
   src/node.cpp
   src/refpair.cpp
