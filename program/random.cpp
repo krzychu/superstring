@@ -46,13 +46,13 @@ int main(int argc, char ** argv){
   int best_known = instance.superstring_length();
   int random_best = INT_MAX;
   
-  Individual *x = new Individual(n);
+
   int start = time(0);
   #pragma omp parallel for
   for(int i = 0; i < num_processed; i++){
-    
-    x->randomize();
-    int v = instance.evaluate(x);
+    Individual x(n);
+    x.randomize();
+    int v = instance.evaluate(&x);
     #pragma omp critical
     {
       if(v < random_best) random_best = v;
