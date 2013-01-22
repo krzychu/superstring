@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <cstdio>
 
 
 struct Overlap
@@ -15,12 +16,17 @@ struct Overlap
   Overlap(int o, int l, int r)
     : len(o), left(l), right(r) {}
 
-  bool operator<(const Overlap & other) const
+  bool operator < (const Overlap & other) const
   {
     return len < other.len; 
   }
 };
 
+
+const char * b2s(bool x)
+{
+  return x ? "true" : "false";
+}
 
 
 int Heuristic::run() const
@@ -48,11 +54,14 @@ int Heuristic::run() const
 
       if(res.first == (int)second.size()){
         inside[j] = true;
+        ////printf("string %d is inside string %d\n", j, i);
       }
      
       overlaps.push_back(Overlap(res.second, i, j));
     }
   }
+
+  //printf("computed %lu overlaps\n", overlaps.size());
 
   std::sort(overlaps.begin(), overlaps.end());
   FindUnion fu(n);
@@ -63,14 +72,23 @@ int Heuristic::run() const
     Overlap cur = overlaps.back();
     overlaps.pop_back();
 
-    if(prefix_used[cur.right] || suffix_used[cur.left]);
+    //printf("trying strings %d and %d with overlap %d\n", cur.left, cur.right, cur.len);
+    if(prefix_used[cur.right] || suffix_used[cur.left])
       continue;
+    
+    //printf("--> both ends are avaliable\n");
    
     if(inside[cur.right] || inside[cur.left])
       continue;
+    
+    //printf("--> none of them is a factor\n");
 
     if(fu.find(cur.right) == fu.find(cur.left))
       continue;
+    
+    //printf("--> they won't form a cycle\n");
+
+    //printf("joining strings %d and %d\n", cur.left, cur.right);
 
     prefix_used[cur.right] = true;    
     suffix_used[cur.left] = true;

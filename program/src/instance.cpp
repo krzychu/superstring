@@ -44,46 +44,56 @@ void Instance::add_word(const Word & w)
  */
 
 void Instance::save(const char *file_name){
-	FILE * f = fopen(file_name, "w");
-  	if(!f) throw std::exception();
-  	fprintf(f, "%d\n", alphabet_size_);
-	fprintf(f, "%d\n", superstring_length_);
-	int n = words_.size();
-	fprintf(f, "%d\n", n);
-	for(int i = 0; i < n; i++) fprintf(f, "%d ", solution_[i]);
-	fprintf(f, "\n");
+  FILE * f = fopen(file_name, "w");
+  if(!f) throw std::exception();
+  fprintf(f, "%d\n", alphabet_size_);
+  fprintf(f, "%d\n", superstring_length_);
+  int n = words_.size();
+  fprintf(f, "%d\n", n);
+  for(int i = 0; i < n; i++) fprintf(f, "%d ", solution_[i]);
+  fprintf(f, "\n");
 
-  	for(int i = 0; i < n; i++){
-  		for(unsigned int j = 0; j < words_[i].size(); j++){
-  			fprintf(f, "%c", words_[i][j] + 'a');
-  		}
-		fprintf(f, "\n");
-  	}
-  	fclose(f);
+  for(int i = 0; i < n; i++){
+    for(unsigned int j = 0; j < words_[i].size(); j++){
+      fprintf(f, "%c", words_[i][j] + 'a');
+    }
+    fprintf(f, "\n");
+  }
+  fclose(f);
 }
 
+
 Instance Instance::load(const char *file_name){
-	FILE * f = fopen(file_name, "r");
-  	if(!f) throw std::exception();
-  	int alphabet_size, superstring_length;
-  	fscanf(f, "%d\n", &alphabet_size);
-  	fscanf(f, "%d\n", &superstring_length);
-  	Instance I(alphabet_size);
-  	I.superstring_length_ = superstring_length;
-  	int n;
-	fscanf(f, "%d\n", &n);
+  printf("loading : %s\n", file_name);
 
-	I.solution_.resize(n);
-	for(int i = 0; i < n; i++) fscanf(f, "%d ", &I.solution_[i]);
+  FILE * f = fopen(file_name, "r");
+  if(!f) throw std::exception();
 
-  	for(int i = 0; i < n; i++){
-  		char s[1000000];
-  		fscanf(f, "%s", s);
-  		string str(s);
-  		I.add_word(str);
-  	}
-  	fclose(f);
-  	return I;
+  int alphabet_size, superstring_length;
+  
+  fscanf(f, "%d", &alphabet_size);
+  printf("loading : alphabet_size = %d\n", alphabet_size);
+
+  fscanf(f, "%d", &superstring_length);
+  printf("loading : superstring_length = %d\n", superstring_length);
+
+  Instance I(alphabet_size);
+  I.superstring_length_ = superstring_length;
+  int n;
+  fscanf(f, "%d", &n);
+  printf("loading : n = %d\n", n);
+
+  I.solution_.resize(n);
+  for(int i = 0; i < n; i++) fscanf(f, "%d ", &I.solution_[i]);
+
+  for(int i = 0; i < n; i++){
+    char s[1000000];
+    fscanf(f, "%s", s);
+    string str(s);
+    I.add_word(str);
+  }
+  fclose(f);
+  return I;
 }
 
 
