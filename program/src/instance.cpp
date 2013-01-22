@@ -125,7 +125,12 @@ int Instance::evaluate(const Individual * ind) const
   return ss.size();
 }
 
-
+void Instance::clear(){
+	words_.resize(0);
+	pis_.resize(0);
+	superstring_length_ = 0;
+	solution_.resize(0);
+}
 
 char Instance::random_nucleotide(){
 	int r = randint(0,alphabet_size_);
@@ -145,6 +150,8 @@ char Instance::random_nucleotide(){
 
 
 void Instance::randomize(int num_words, int superstring_length, float avg_common_part_percentage){
+	clear();
+
 	Word superstring;
 	superstring_length_ = superstring_length;
 	superstring.resize(superstring_length);

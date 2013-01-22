@@ -34,6 +34,7 @@ class Instance{
 
     void save(const char *file_name);
     static Instance load(const char *file_name);
+    void clear();
 
   private:
     const int alphabet_size_; 
