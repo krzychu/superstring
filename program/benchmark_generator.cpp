@@ -2,7 +2,7 @@
 int main(){
   Instance I(4);
 
-  I.randomize(5, 100, 0.7);
+  I.randomize(10, 500, 0.7);
   I.save("gdb.test");
 
   I.randomize(5, 5000, 0.7);
