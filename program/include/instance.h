@@ -8,7 +8,6 @@
 
 class Instance{
   public:
-
     typedef std::vector<char> Word;
 
     Instance(int alphabet_size) 

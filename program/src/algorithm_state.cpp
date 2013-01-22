@@ -5,7 +5,7 @@
 
 AlgorithmState::AlgorithmState(){
   iteration_ = 1;  
-  processed_ ++;
+  processed_ = 0;
   best_solution_ = std::numeric_limits<int>::max();
 }
 

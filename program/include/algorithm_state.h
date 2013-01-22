@@ -3,10 +3,12 @@
 
 #include <vector>
 #include <population.h>
+#include <limits>
 
 class AlgorithmState{
   public:
     AlgorithmState();
+
     int iteration() const; 
     void inc_iteration(); 
 
