@@ -9,6 +9,7 @@
 class Crossover{
   public:
     typedef std::pair<Individual, Individual> Result;
+    virtual ~Crossover(){};
 
     virtual Result operator() 
       (const Individual * a, const Individual * b) const = 0;
