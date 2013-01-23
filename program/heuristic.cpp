@@ -14,6 +14,7 @@ int main(int argc, char ** argv)
 
   const char * file_name = argv[1];
   Instance instance  = Instance::load(file_name);
+  instance.preprocess();
   
   Heuristic solver(instance);
 
