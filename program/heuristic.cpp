@@ -23,7 +23,6 @@ int main(int argc, char ** argv)
 
   printf("solution : %d\n", solution); 
 
-
   std::stringstream name;
   name << file_name << ".heuristic";
   FILE * out = fopen(name.str().c_str(), "w");
