@@ -7,6 +7,7 @@ TEST(TranspositionSearch, ReturnsAtLeastTheSame){
   instance.add_word("abc");
   instance.add_word("ddd");
   instance.add_word("abd");
+  instance.preprocess();
   
   Individual start(3);
   start.set_parents((Individual*)10, (Individual*)20);
@@ -27,6 +28,7 @@ TEST(InsertionSearch, ReturnsAtLeastTheSame){
   instance.add_word("abc");
   instance.add_word("ddd");
   instance.add_word("abd");
+  instance.preprocess();
   
   Individual start(3);
   start.set_parents((Individual*)10, (Individual*)20);

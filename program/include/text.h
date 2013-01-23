@@ -6,7 +6,7 @@
 #include <string>
 
 template<class TextIterator, class OutputIterator>
-void calculate_pi(const TextIterator & begin, const TextIterator & end, OutputIterator & out)
+void calculate_pi(const TextIterator & begin, const TextIterator & end, OutputIterator  out)
 {
   out[0] = 0;   
   int q = 0;

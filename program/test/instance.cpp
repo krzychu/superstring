@@ -9,6 +9,9 @@ TEST(Instance, EvaluatesIndividuals){
   instance.add_word("abc");
   instance.add_word("cd");
   instance.add_word("de");
+  instance.preprocess();
+
+  ASSERT_EQ(3, instance.num_words());
 
   Individual ind(instance.num_words());
   for(int i = 0; i < instance.num_words(); i++)

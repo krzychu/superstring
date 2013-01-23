@@ -1,12 +1,15 @@
 #include <instance.h>
 #include <text.h>
+#include <suffix_tree.h>
+
 #include <algorithm>
 #include <iostream>
 #include <algorithm>
 #include <functional>
-#include <suffix_tree.h>
 #include <cstdio>
 #include <cstring>
+#include <cassert>
+#include <stdexcept>
 
 using namespace std;
 
@@ -23,9 +26,6 @@ void Instance::add_word(const std::string & str)
 void Instance::add_word(const Word & w)
 {
   words_.push_back(w);
-  int * pi = new int[w.size()];
-  pis_.push_back(pi);
-  calculate_pi(w.begin(), w.end(), pi);
 }
 
 
@@ -97,50 +97,104 @@ Instance Instance::load(const char *file_name){
 }
 
 
-Instance::~Instance()
+Instance::~Instance(){}
+
+
+void Instance::preprocess() 
 {
-  for(unsigned int i = 0; i < pis_.size(); i++)
-    delete [] pis_[i];
+  const int n = num_words();
+
+  // compute pi for all of them
+  for(int i = 0; i < n; i++){
+    std::vector<int> pi(words_[i].size()); 
+    calculate_pi(words_[i].begin(), words_[i].end(), pi.begin());
+    pis_.push_back(pi);
+  }
+
+  vector<vector<int> > overlap(n, vector<int>(n));
+  vector<bool> inside(n, false);
+  for(int i = 0; i < n; i++){
+    for(int j = 0; j < n; j++){
+      if(i == j)
+        continue;
+
+      // calculate overlap of i and j  
+      const Word & left = words_[i];
+      const Word & right = words_[j];
+
+      std::pair<int, int> res = find_with_overlap(
+        right.begin(), right.end(), pis_[j],
+        left.begin(), left.end() 
+      );
+
+      if(res.first == (int)right.size()){
+        inside[j] = true;
+      }
+
+      overlap[i][j] = res.second;
+    }
+  } 
+
+  vector<int> new_index(n, 0);
+  for(int i = 1; i < n; i++)
+    new_index[i] = new_index[i - 1] + !inside[i-1];
+
+  const int new_n = new_index[n - 1] + 1;
+
+  word_size_sum_ = 0;
+  for(int i = 0; i < n; i++){
+    if(!inside[i]){
+      words_[new_index[i]] = words_[i];
+      pis_[new_index[i]] = pis_[i];
+      word_size_sum_ += words_[i].size();
+    }
+  }
+
+  words_.resize(new_n);
+  pis_.resize(new_n);
+
+  ov_.clear();
+  for(int i = 0; i < n; i++){
+    ov_.push_back(std::vector<int>(new_n));
+    for(int j = 0; j < n; j++){
+      if(i == j || inside[i] || inside[j])
+        continue;
+
+      ov_[new_index[i]][new_index[j]] = overlap[i][j];
+    }
+  }
+
+  needs_preprocessing_ = false;
 }
+
+
 
 
 int Instance::evaluate(const Individual * ind) const
 {
+  assert(!needs_preprocessing_);
+  assert(ind->size() == num_words());
+
   const Individual & P = *ind;
-  vector<char> ss;
-  stree::Tree tree(alphabet_size_);
+  int sum = 0;
+  for(unsigned int i = 0; i < P.size() - 1; i++){
+    sum += ov(P[i], P[i+1]);
+  }
 
-  for(int i = 0; i < num_words(); i++){
-    const Word & w = words_[P[i]];
-    int * pi = pis_[P[i]];
-   
-    vector<char>::iterator start;
-    if(w.size() > ss.size())
-      start = ss.begin();
-    else
-      start = ss.end() - w.size();
-
-    pair<int, int> out = find_with_overlap(
-      w.begin(), w.end(), pi, 
-      start, ss.end());
-
-    const int overlap = out.second;
-
-    if(!tree.contains(w.begin(), w.end())){
-      copy(w.begin() + overlap, w.end(), back_inserter(ss)); 
-      copy(w.begin() + overlap, w.end(), back_inserter(tree)); 
-    }
-  } 
-
-  return ss.size();
+  return word_size_sum_ - sum;
 }
+
+
 
 void Instance::clear(){
-	words_.resize(0);
-	pis_.resize(0);
+  needs_preprocessing_ = true;
+	words_.clear();
+	pis_.clear();
 	superstring_length_ = 0;
-	solution_.resize(0);
+	solution_.clear();
 }
+
+
 
 char Instance::random_nucleotide(){
 	int r = randint(0,alphabet_size_);

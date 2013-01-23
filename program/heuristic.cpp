@@ -14,6 +14,7 @@ int main(int argc, char ** argv)
 
   const char * file_name = argv[1];
   Instance instance  = Instance::load(file_name);
+  instance.preprocess();
   
   Heuristic solver(instance);
 
@@ -22,7 +23,6 @@ int main(int argc, char ** argv)
   int duration = time(0) - start;
 
   printf("solution : %d\n", solution); 
-
 
   std::stringstream name;
   name << file_name << ".heuristic";

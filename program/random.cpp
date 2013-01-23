@@ -41,6 +41,7 @@ int main(int argc, char ** argv){
 
   // read instance
   Instance instance = Instance::load(file_name);
+  instance.preprocess();
 
   int n = instance.num_words();
   int best_known = instance.superstring_length();

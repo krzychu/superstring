@@ -100,7 +100,7 @@ int main(int argc, char ** argv){
   std::string operator_name(argv[operator_idx]);
   // read instance
   Instance instance = Instance::load(file_name);
-
+  instance.preprocess();
   
   // create solver
   NumIterationsCondition termination_condition(num_iterations);
