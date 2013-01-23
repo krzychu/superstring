@@ -1,0 +1,2 @@
+plot "test_30_600.test_0.progress" using 1:2 with lines linecolor rgb "red" title "Best", "test_30_600.test_0.progress" using 1:3 with lines linecolor rgb "green" title "Mean", "test_30_600.test_0.progress" using 1:4 with lines linecolor rgb "blue" title "Sdev";
+pause -1

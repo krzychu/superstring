@@ -11,6 +11,7 @@
 const int file_name_idx = 1;
 const int execution_idx = 2;
 const int num_iterations_idx = 3;
+const int operator_idx = 4;
 
 // program parameters
 int population_size = 200;
@@ -27,7 +28,7 @@ const double mutation_probability = 0.05;
 
 
 
-void save_results(const Solver & solver, int time, const char * filename, int execution_number)
+void save_results(const Solver & solver, int time, const char * filename, int execution_number, std::string operator_name)
 {
   std::stringstream name;
   name << filename <<  "_" << execution_number << ".genetic";
@@ -35,6 +36,7 @@ void save_results(const Solver & solver, int time, const char * filename, int ex
   fprintf(out, "our solution: %d\n", solver.solution());
   fprintf(out, "time (s): %d\n", time);
   fprintf(out, "number of processed individuals: %lld\n", solver.processed());
+  fprintf(out, "crossover operator: %s\n", operator_name.c_str());
   fclose(out);
 }
 
@@ -87,15 +89,15 @@ void save_progress(const std::vector<IterationInfo> & iterations,
 int main(int argc, char ** argv){
 
   // parse arguments
-  if(argc != 4){
-    printf("usage: ./genetic problem_file execution_number num_iterations\n");
+  if(argc != 5){
+    printf("usage: ./genetic problem_file execution_number num_iterations crossover_operator\n");
     return -1;
   }
 
   const char * file_name = argv[file_name_idx];
   int execution_number = atoi(argv[execution_idx]);
   int num_iterations = atoi(argv[num_iterations_idx]);
-
+  std::string operator_name(argv[operator_idx]);
   // read instance
   Instance instance = Instance::load(file_name);
   instance.preprocess();
@@ -103,8 +105,26 @@ int main(int argc, char ** argv){
   // create solver
   NumIterationsCondition termination_condition(num_iterations);
 
-  PMX crossover_operator;
-  RandomPairCrossoverStrategy crossover_strategy(crossover_operator);
+
+  Crossover *crossover_operator;
+  if((operator_name == "ux")) {
+    crossover_operator = new UX(5);
+  }
+
+  if((operator_name == "pmx")) {
+    crossover_operator = new PMX();
+  }
+
+  if((operator_name == "ox")) {
+    crossover_operator = new OX();
+  }
+
+  if((operator_name == "composition")) {
+    crossover_operator = new Composition();
+  }
+
+
+  RandomPairCrossoverStrategy crossover_strategy(*crossover_operator);
 
   KBestSelector parent_selector(num_parents);
   IdentityScaler scaler;
@@ -139,6 +159,8 @@ int main(int argc, char ** argv){
   printf("time = %d\n", duration);
 
   save_progress(solver.iterations(), file_name, execution_number);
+
+  delete crossover_operator;
 
   return 0;
 }
