@@ -4,7 +4,7 @@
 #include <individual.h>
 #include <algorithm_state.h>
 #include <utility>
-
+#include <instance.h>
 
 class Crossover{
   public:
@@ -22,6 +22,16 @@ class OX : public Crossover{
 
     Individual cross(int a, int b, 
       const Individual * mom, const Individual * dad) const;
+};
+
+class OXimproved : public OX{
+  public:  
+    OXimproved(Instance & instance);
+    virtual Result operator() 
+      (const Individual * a, const Individual * b) const;
+
+    private:
+      Instance::Instance instance; 
 };
 
 

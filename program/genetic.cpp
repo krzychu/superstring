@@ -116,7 +116,7 @@ int main(int argc, char ** argv){
   }
 
   if((operator_name == "ox")) {
-    crossover_operator = new OX();
+    crossover_operator = new OXimproved(instance);
   }
 
   if((operator_name == "composition")) {
