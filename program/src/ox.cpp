@@ -14,7 +14,35 @@ Crossover::Result OX::operator () (const P * mom, const P * dad) const{
   return r;
 }
 
-OXimproved::OXimproved(Instance & ins) : instance(ins){}
+
+std::pair<int, int> smallest_idx(const Individual & P, const Instance & instance){
+  const int n = P.size();
+  const int inf = std::numeric_limits<int>::max();
+
+  int best = -1;
+  int best_val = inf;
+
+  int second = -1;
+  int second_val = inf;
+
+  for(int i = 0; i < n - 1; i++){
+    int v = instance.ov(P[i], P[i+1]);
+    if(v < best_val){
+      second_val = best_val;
+      second = best;
+      best_val = v;
+      best = i;
+    }
+    else if(v < second_val){
+      second_val = v;
+      second = i;
+    }
+  }
+
+  return std::make_pair(best, second);
+}
+
+
 
 Crossover::Result OXimproved::operator () (const Individual * m, const Individual * d) const{
   
@@ -22,32 +50,11 @@ Crossover::Result OXimproved::operator () (const Individual * m, const Individua
   const P & dad = *d;
 
   Result r;
-  std::pair<int, int> abmom;
-  abmom.first = 10000000;
-  abmom.second = 10000000;
-  for(unsigned int i = 0; i < mom.size()-1; i++){
-    int val = instance.ov(mom[i], mom[i+1]);
-    if(val < abmom.first) abmom.first = val;
-  }
-  for(unsigned int i = 0; i < mom.size()-1; i++){
-    int val = instance.ov(mom[i], mom[i+1]);
-    if(val < abmom.second && val != abmom.first) abmom.second = val;
-  }
-
-  std::pair<int, int> abdad;
-  abdad.first = 10000000;
-  abdad.second = 10000000;
-  for(unsigned int i = 0; i < dad.size()-1; i++){
-    int val = instance.ov(dad[i], dad[i+1]);
-    if(val < abdad.first) abdad.first = val;
-  }
-  for(unsigned int i = 0; i < dad.size()-1; i++){
-    int val = instance.ov(dad[i], dad[i+1]);
-    if(val < abdad.second && val != abdad.first) abdad.second = val;
-  }
-
+  std::pair<int, int> abmom = smallest_idx(mom, instance_);
+  std::pair<int, int> abdad = smallest_idx(dad, instance_);
   r.first = cross(abmom.first, abmom.second, m, d);
   r.second = cross(abdad.first, abdad.second, d, m);
+
   return r;
 }
 

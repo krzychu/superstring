@@ -27,12 +27,14 @@ class OX : public Crossover{
 
 class OXimproved : public OX{
   public:  
-    OXimproved(Instance & instance);
+    OXimproved(const Instance & instance) : 
+      instance_(instance) {}
+
     virtual Result operator() 
       (const Individual * a, const Individual * b) const;
 
     private:
-      Instance::Instance instance; 
+      const Instance & instance_; 
 };
 
 
