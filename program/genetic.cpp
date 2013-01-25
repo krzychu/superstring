@@ -14,8 +14,8 @@ const int num_iterations_idx = 3;
 const int operator_idx = 4;
 
 // program parameters
-int population_size = 200;
-int num_parents = 200;
+int population_size = 1000;
+int num_parents = 1000;
 
 const double max_immigrant_ratio = 0.3;
 const int num_immigrant_search_iterations = 5;
@@ -106,7 +106,7 @@ int main(int argc, char ** argv){
   NumIterationsCondition termination_condition(num_iterations);
 
 
-  Crossover *crossover_operator;
+  Crossover *crossover_operator = 0;
   if((operator_name == "ux")) {
     crossover_operator = new UX(5);
   }
@@ -159,6 +159,7 @@ int main(int argc, char ** argv){
   printf("time = %d\n", duration);
 
   save_progress(solver.iterations(), file_name, execution_number);
+  save_results(solver, duration, file_name, execution_number, operator_name);
 
   delete crossover_operator;
 

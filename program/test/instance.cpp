@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <vector>
 #include <instance.h>
 
 
@@ -18,6 +19,33 @@ TEST(Instance, EvaluatesIndividuals){
     ind[i] = i;
   ASSERT_EQ(5, instance.evaluate(&ind));
 }
+
+
+TEST(Instance, EvaluatesAllInsertions){
+  using namespace std;
+
+  Instance instance(200);
+  instance.add_word("xab");
+  instance.add_word("bcy");
+  instance.add_word("abc");
+  instance.preprocess();
+
+  Individual individual(3);
+ 
+  const int expected[3][3] = {
+    {0, 7, 7},
+    {0, 0, 5},
+    {0, 0, 0},
+  };
+
+  vector< vector<int> > res = instance.evaluate_all_transpositions(&individual);
+  for(int i = 0; i < 3; i++){
+    for(int j = i + 1; j < 3; j++){
+      ASSERT_EQ(expected[i][j], res[i][j]);
+    }
+  }
+}
+
 
 /*
 TEST(instance, generate_random_instance){
