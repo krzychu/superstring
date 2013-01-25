@@ -30,6 +30,7 @@ class Instance{
 
     void preprocess();
     int evaluate(const Individual * ind) const;
+    std::vector< std::vector<int> > evaluate_all_transpositions(const Individual * ind) const;
     int ov(int i, int j) const { return ov_[i][j]; }
 
     void randomize(int num_words, 

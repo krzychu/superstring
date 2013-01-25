@@ -54,7 +54,7 @@ void Instance::save(const char *file_name){
   fprintf(f, "\n");
 
   for(int i = 0; i < n; i++){
-    for(unsigned int j = 0; j < words_[i].size(); j++){
+   for(unsigned int j = 0; j < words_[i].size(); j++){
       fprintf(f, "%c", words_[i][j] + 'a');
     }
     fprintf(f, "\n");
@@ -186,6 +186,70 @@ int Instance::evaluate(const Individual * ind) const
 
 
 
+
+std::vector< std::vector<int> > Instance::evaluate_all_transpositions
+  (const Individual * ind) const
+{
+  const Individual & P = *ind;
+  const int n = ind->size();
+  std::vector< std::vector<int> > res(n, std::vector<int>(n, 0));
+
+  int overlap_sum = 0;
+  for(unsigned int i = 0; i < P.size() - 1; i++){
+    overlap_sum += ov(P[i], P[i+1]);
+  }
+
+  for(int i = 0; i < n - 1; i++){
+    int sum = overlap_sum;
+    if(i > 0){
+      sum -= ov(P[i-1], P[i]);
+      sum += ov(P[i-1], P[i+1]);
+    }
+
+    sum -= ov(P[i], P[i+1]);
+    sum += ov(P[i+1], P[i]);
+    
+    if(i < n - 2){
+      sum -= ov(P[i+1], P[i+2]);
+      sum += ov(P[i], P[i+2]);
+    }
+    res[i][i+1] = word_size_sum_ - sum;
+  }
+
+  for(int i = 0; i < n; i++){
+    for(int j = i + 2; j < n; j++){
+      int sum = overlap_sum;
+
+      if(i > 0){
+        sum -= ov(P[i - 1], P[i]);
+        sum += ov(P[i - 1], P[j]);
+      }
+
+      if(j > 0){
+        sum -= ov(P[j - 1], P[j]);
+        sum += ov(P[j - 1], P[i]);
+      }
+      
+      if(i < n - 1){
+        sum -= ov(P[i], P[i + 1]);
+        sum += ov(P[j], P[i + 1]);
+      }
+ 
+      if(j < n - 1){
+        sum -= ov(P[j], P[j + 1]);
+        sum += ov(P[i], P[j + 1]);
+      }
+
+      res[i][j] = word_size_sum_ - sum;
+    }
+  }
+
+  return res;
+}
+
+
+ 
+
 void Instance::clear(){
   needs_preprocessing_ = true;
 	words_.clear();
@@ -193,6 +257,7 @@ void Instance::clear(){
 	superstring_length_ = 0;
 	solution_.clear();
 }
+
 
 
 
