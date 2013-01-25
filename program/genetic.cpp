@@ -14,8 +14,8 @@ const int num_iterations_idx = 3;
 const int operator_idx = 4;
 
 // program parameters
-int population_size = 1000;
-int num_parents = 1000;
+int population_size = 4000;
+int num_parents = 4000;
 
 const double max_immigrant_ratio = 0.3;
 const int num_immigrant_search_iterations = 5;

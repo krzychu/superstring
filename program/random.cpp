@@ -57,6 +57,10 @@ int main(int argc, char ** argv){
     #pragma omp critical
     {
       if(v < random_best) random_best = v;
+
+      int duration = time(0) - start;
+      printf("time = %d\nbest found = %d\nbest known = %d\n", duration, random_best, best_known);
+      save_results(random_best, num_processed, duration, file_name, execution_number);
     }
 
   }
