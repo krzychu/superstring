@@ -1,0 +1,71 @@
+
+#najlepszy
+\begin{tabular}{c|ccc}
+  \hline
+  liczba słów & ewolucyjny & random & heurystyka\\
+  \hline
+  100 & 49985 & 80775 & 49318 \\
+  200 & 50000 & 82697 & 49543 \\
+  400 & 57209 & 83779 & 49823\\
+  600 & 58640 & 84110 & 49764 \\
+  800 & 63133 & 83178 & 49571 \\
+  1000 & 65681 & 83297 & 49938 
+\end{tabular}
+
+#średni
+\begin{tabular}{c|cc}
+  \hline
+  liczba słów & ewolucyjny & random\\
+  \hline
+  100 & 49985 & 80775 \\
+  200 & 50194 & 82768 \\
+  400 & 57893 & 83779 \\
+  600 & 58732 & 84120 \\
+  800 & 63152 & 83183 \\
+  1000 & 65858 & 83301
+\end{tabular}
+
+#odchylenie
+\begin{tabular}{c|cc}
+  \hline
+  liczba słów & ewolucyjny & random\\
+  \hline
+  100 & 0 & 0 \\
+  200 & 258 & 40,7 \\
+  400 & 530 & 0 \\
+  600 & 176 & 15,8 \\
+  800 & 42 & 10 \\
+  1000 & 94 & 6,5
+\end{tabular}
+
+
+#Generator benchmarków
+
+\subsection{Generowanie bechamarków}
+Ze względu na trudność w znalezieniu benchmarków postanowiliśmy wygenerować je
+na własną rękę.  Funkcja generująca przykładowy problem do rozwiązania pobiera
+3 argumenty: oczekiwaną długość superstringu, liczbę słów które ma utworzyć
+oraz procentowy overlap. Benchmark generowany jest w następujący sposób:
+
+\begin{enumerate}
+  \item utwórz superstring o zadanej długości
+  \item podziel superstring na zadaną liczbę słów o tej samej długości
+  \item każde ze słów rozszerz o podany współczynnik zmodyfikowany losowo
+  w taki sposób, aby dalej pozostawało podsłowem
+  \item losowo pozamieniaj kolejność otrzymanych słów
+\end{enumarate}
+
+
+Dla uproszczenia testowania algorytmów w wygenerowanych zestawach testowych
+wybraliśmy długość stringu równą $50000$ oraz procentowy overlap równy $70\%$
+dla każdego zestawu.  Mieliśmy nadzieję, że takie współczynniki wystarczą do
+tego, by oczekiwana długość superstringu mogła w każdym zestawie testowym
+posłużyć za wartość optymalną. Ale algorytmy potrafiły znaleźć jeszcze lepsze
+wartości. Dzieje się tak ze względu na niewielki rozmiar alfabetu, jakiego
+użyliśmy.  Jednakże znajdowane rozwiązania nigdy nie były znacznie lepsze od
+oczekiwanego, a ponieważ nigdy nie możemy mieć pewności, że zadana długość
+superstringu będzie optymalnym  rozwiązaniem, nawet dla bardzo dużego alfabetu
+i overlapów, zdecydowaliśmy się zostawić dane benchmarki i posługiwać się
+wartością $50000$ jako orientacyjną.
+
+
